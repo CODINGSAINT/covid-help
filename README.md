@@ -30,7 +30,8 @@ Hi! This is an open source project to help society and flats in need. It is easy
 
 ## Using App
 
-Open Heroku URL and create an Admin User , This is must and only 1 Admin user is allowed , so before sharing URL, create Admin user . URL : https://heroku-app-url/registeAdmin.html
+Open Heroku URL and create an Admin User , This is must and only 1 Admin user is allowed , 
+so before sharing URL, create Admin user . URL : https://heroku-app-url/registerAdmin.html
 
 ![Alt text](images/adminRegister.png?raw=true "Title")
 
