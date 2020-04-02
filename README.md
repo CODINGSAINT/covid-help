@@ -20,7 +20,7 @@ Hi! This is an open source project to help society and flats in need. It is easy
  - ### Create a Heroku app
  - ` heroku apps:create <app-name>`
  - Add Heroku postgres database by  `heroku addons:create heroku-postgresql:hobby-dev`
- - Get Database connection string from heroku app using commang `heroku config`
+ - Get Database connection string from heroku app using command `heroku config`
  - It will give output like 
  ` DATABASE_URL: postgres://hareumpdsfsuzfx:1786f3c0715e738c13dbfs0ee4416a78f9dsdsdg3188181e97e039851a5@ec2-34-225-82-212.compute-1.amazonaws.com:5432/d7ks8k0dsd5vhn `
  - Add heroku config for database URL which app will use, The string is same as above with only change of jdbc: added .
