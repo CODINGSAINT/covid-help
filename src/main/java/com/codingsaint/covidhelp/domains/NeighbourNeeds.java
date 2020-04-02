@@ -2,17 +2,20 @@ package com.codingsaint.covidhelp.domains;
 
 import io.quarkus.hibernate.orm.panache.PanacheEntity;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
-import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
-import java.util.Date;
+import java.util.List;
 
 @Entity
 public class NeighbourNeeds  extends PanacheEntity {
     @Id
     private Long id;
+    @Column(unique = true)
+    private String needId;
     private String name;
+    private String email;
     private String flatNumber;
     private String item;
     private String quantity;
@@ -22,6 +25,14 @@ public class NeighbourNeeds  extends PanacheEntity {
     private String  pickedBy;
     private LocalDate date;
     private String mobile;
+
+    public String getNeedId() {
+        return needId;
+    }
+
+    public void setNeedId(String needId) {
+        this.needId = needId;
+    }
 
     public String getMobile() {
         return mobile;
@@ -110,4 +121,17 @@ public class NeighbourNeeds  extends PanacheEntity {
     public void setDate(LocalDate date) {
         this.date = date;
     }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public static NeighbourNeeds findByNeedId(String needId) {
+        return find("needId", needId).firstResult();
+    }
+
 }

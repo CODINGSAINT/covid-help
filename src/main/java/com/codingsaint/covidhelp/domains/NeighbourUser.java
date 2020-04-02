@@ -3,6 +3,7 @@ package com.codingsaint.covidhelp.domains;
 
 import io.quarkus.hibernate.orm.panache.PanacheEntity;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.validation.constraints.NotNull;
@@ -19,12 +20,17 @@ import java.util.List;
     @NotNull(message = "Door/Flat Number is required")
     private String flatNumber;
     @NotNull(message = "Email is required")
+    @Column(unique = true)
     private String email;
     @NotNull(message = "Mobile No is required")
     private String mobile;
 
+
     @NotNull(message = "Password is required")
     private String password;
+    //private Integer iterationCount;
+   // private  String salt;
+
     private String role;
     private Boolean active;
 
@@ -95,6 +101,7 @@ import java.util.List;
     public static NeighbourUser findByEmail(String email) {
         return find("email", email).firstResult();
     }
+
     public static NeighbourUser findByRole(String admin) {
         return find("role", admin).firstResult();
     }
