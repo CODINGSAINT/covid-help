@@ -56,8 +56,13 @@ function successMessage(message) {
 }
 
 //show error Message
-function errorMessage(message) {
-	$("#errorContainer").html(message);
+function errorMessage(errorsMessage) {
+var error="";
+$.each(errorsMessage.errors, function( index, value ) {
+ error= value.message+"<br>";
+});
+
+	$("#errorContainer").html(error);
 	$("#error").show();
 
 }
@@ -152,10 +157,23 @@ $.ajax({
 				errorMessage(data.errors);
 			} else if (data.message) {
 				successMessage(data.message);
+                        				Swal.fire({
+                                          title: '<strong>Help Neighbour</strong>',
+                                          icon: 'info',
+                                          html: data.message,
+                                          showCloseButton: true,
+                                          focusConfirm: false,
+                                          confirmButtonText:
+                                            '<i class="fa fa-thumbs-up"></i> Great!',
+                                          confirmButtonAriaLabel: 'User Approved!',
+
+                                        }).then(function() {
+                                             location.reload()
+                                          });
 			}
 		}
 	});
-	reload();
+
 }
 
 function remove(email){
@@ -174,11 +192,23 @@ $.ajax({
 			if (data.errors) {
 				errorMessage(data.errors);
 			} else if (data.message) {
-				successMessage(data.message);
+					Swal.fire({
+                                              title: '<strong>Help Neighbour</strong>',
+                                              icon: 'info',
+                                              html: data.message,
+                                              showCloseButton: true,
+                                              focusConfirm: false,
+                                              confirmButtonText:
+                                                '<i class="fa fa-thumbs-up"></i> Great!',
+                                              confirmButtonAriaLabel: 'User Removed!',
+
+                                            }).then(function() {
+                                                 location.reload()
+                                              });
 			}
 		}
 	});
-	reload();
+
 }
 function signupAdmin() {
 	messageHide();

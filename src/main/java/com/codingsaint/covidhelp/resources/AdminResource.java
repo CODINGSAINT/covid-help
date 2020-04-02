@@ -6,6 +6,8 @@ import com.codingsaint.covidhelp.domains.Errors;
 import com.codingsaint.covidhelp.domains.NeighbourMessageWrapper;
 import com.codingsaint.covidhelp.domains.NeighbourUser;
 import com.codingsaint.covidhelp.util.CovidHelpUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.annotation.security.RolesAllowed;
 import javax.transaction.Transactional;
@@ -16,6 +18,7 @@ import java.util.List;
 
 @Path("/api/admin")
 public class AdminResource {
+    private static  final Logger LOGGER= LoggerFactory.getLogger(AdminResource.class);
 
     @GET
     @RolesAllowed("admin")
@@ -49,6 +52,7 @@ public class AdminResource {
     public NeighbourMessageWrapper approveUser(@PathParam("emailId") String emailId) {
         try {
             NeighbourUser user = NeighbourUser.findByEmail(emailId);
+            LOGGER.info("user to approve-->{}",user);
             user.setActive(true);
             user.persist();
             NeighbourMessageWrapper messageWrapper = new NeighbourMessageWrapper("User Approved Successfully", null);
@@ -69,7 +73,7 @@ public class AdminResource {
     public NeighbourMessageWrapper removeUser(@PathParam("emailId") String emailId) {
         try {
             NeighbourUser user = NeighbourUser.findByEmail(emailId);
-            user.setActive(true);
+            LOGGER.info("user to delete-->{}",user);
             user.delete();
             NeighbourMessageWrapper messageWrapper = new NeighbourMessageWrapper("User Removed Successfully", null);
             return messageWrapper;

@@ -134,4 +134,22 @@ public class NeighbourNeeds  extends PanacheEntity {
         return find("needId", needId).firstResult();
     }
 
+    @Override
+    public String toString() {
+        return "NeighbourNeeds{" +
+                "id=" + id +
+                ", needId='" + needId + '\'' +
+                ", name='" + name + '\'' +
+                ", email='" + email + '\'' +
+                ", flatNumber='" + flatNumber + '\'' +
+                ", item='" + item + '\'' +
+                ", quantity='" + quantity + '\'' +
+                ", isFullfilled=" + isFullfilled +
+                ", isPicked=" + isPicked +
+                ", fullFilledBy='" + fullFilledBy + '\'' +
+                ", pickedBy='" + pickedBy + '\'' +
+                ", date=" + date +
+                ", mobile='" + mobile + '\'' +
+                '}';
+    }
 }

@@ -7,6 +7,8 @@ import com.codingsaint.covidhelp.domains.NeighbourUser;
 import com.codingsaint.covidhelp.util.CovidHelpUtils;
 import io.quarkus.panache.common.Sort;
 import org.eclipse.microprofile.config.inject.ConfigProperty;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.annotation.security.RolesAllowed;
 import javax.transaction.Transactional;
@@ -24,6 +26,8 @@ import java.util.UUID;
 
 @Path("/api/users")
 public class UserResource {
+    private static  final Logger LOGGER= LoggerFactory.getLogger(UserResource.class);
+
     @ConfigProperty(name = "app.zoneId",defaultValue="Asia/Kolkata")
     String zoneId;
     @GET
@@ -66,22 +70,27 @@ public class UserResource {
             // user.setId(UUID.randomUUID().toString());
             String requirements[]=requirementsMap.get("requirements").toString().split(",");
             String action=requirementsMap.get("action").toString();
+            LOGGER.info("action {} requirements {}",action,requirements);
             NeighbourUser currentUser=NeighbourUser.findByEmail( securityContext.getUserPrincipal().getName());
             NeighbourNeeds need=null;
             //pick|fulfilled
             for(String needId:requirements){
                 need=NeighbourNeeds.findByNeedId(needId);
-                need=addNeedValuesWithCurrentUserDetails(currentUser,need);
+                LOGGER.info("need --> {}",need);
+
+                // need=addNeedValuesWithCurrentUserDetails(currentUser,need);
                 if(action.equalsIgnoreCase("pick")){
-                    if(need.getFullFilledBy()!=null){
+                    if(need.getPickedBy()==null){
                         need.setPickedBy(currentUser.getEmail());
                         need.setPicked(Boolean.TRUE);
+                        LOGGER.info("need {}",need);
                         need.persist();
                     }
 
                 }else if(action.equalsIgnoreCase("fulfilled")){
                     //If user is admin or the one who posted requirements
-                    if((!currentUser.getEmail().equalsIgnoreCase(need.getEmail()))||
+                    LOGGER.info("need {} current user {} | need created by {}",need,currentUser.getEmail(), need.getEmail());
+                    if((currentUser.getEmail().equalsIgnoreCase(need.getEmail()))||
                             currentUser.getRole().equalsIgnoreCase("admin")){
                         need.setFullFilledBy(currentUser.getEmail());
                         need.setFullfilled(Boolean.TRUE);
@@ -109,6 +118,7 @@ public class UserResource {
             // user.setId(UUID.randomUUID().toString());
             NeighbourUser currentUser=NeighbourUser.findByEmail( securityContext.getUserPrincipal().getName());
             need=addNeedValuesWithCurrentUserDetails(currentUser,need);
+            LOGGER.info("need wil be created with value {}",need);
             need.persist();
             NeighbourMessageWrapper neighbourMessageWrapper = new NeighbourMessageWrapper("Your Needs have been updated", null);
             return neighbourMessageWrapper;
